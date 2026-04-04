@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/home_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/core/router/app_router.dart';
+import 'package:frontend/core/theme/app_theme.dart';
 
 void main() {
-  runApp(const SharpCut());
+  // Riverpod must wrap the app so providers can be read anywhere.
+  runApp(const ProviderScope(child: SharpCutApp()));
 }
 
-class SharpCut extends StatelessWidget {
-  const SharpCut({super.key});
+class SharpCutApp extends ConsumerWidget {
+  const SharpCutApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: HomePage(),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(appRouterProvider);
+
+    return MaterialApp.router(
+      title: 'SharpCut',
+      theme: sharpCutTheme,
+      debugShowCheckedModeBanner: false,
+      routerConfig: router,
     );
   }
 }

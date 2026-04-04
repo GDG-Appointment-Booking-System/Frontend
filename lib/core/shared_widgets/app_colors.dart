@@ -1,39 +1,42 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // --- BRAND COLORS ---
-  // The dominant dark navy used for buttons, active states, and heavy text.
-  static const Color primary = Color(0xFF0F172A); 
-  
-  // The premium accent color used for "Most Popular", star ratings, and prices.
-  // It's a muted, sophisticated bronze/gold.
-  static const Color accentGold = Color(0xFFB8977E);
+  // Main dark color for CTA buttons and active navigation.
+  static const Color primary = Color(0xFF0C1B2A);
 
-  // --- BACKGROUND & SURFACE ---
-  // The main background of the app. It is NOT pure white, it's a very soft gray
-  // to make the pure white cards pop out.
-  static const Color background = Color(0xFFF4F6F8);
-  
-  // Used for Cards, Bottom Navigation Bar, and input fields.
+  // Soft tint of primary used for section backgrounds and badges.
+  static const Color primarySoft = Color(0xFFEAF0F7);
+
+  // Bronze accent for premium highlights (prices, badges, key stats).
+  static const Color accentGold = Color(0xFFC4A97D);
+
+  // Main page background.
+  static const Color background = Color(0xFFF4F5F7);
+
+  // Card and input background.
   static const Color surface = Color(0xFFFFFFFF);
 
-  // --- TYPOGRAPHY ---
-  // Main headers and important text. (Almost black/dark navy)
-  static const Color textMain = Color(0xFF1E293B);
-  
-  // Secondary text, descriptions, times, and unselected icons.
-  static const Color textMuted = Color(0xFF64748B);
-  
-  // Text used on top of primary dark buttons (Pure White)
+  // Extra subtle background block for grouping content.
+  static const Color sectionTint = Color(0xFFF1F4F9);
+
+  // Main text color.
+  static const Color textMain = Color(0xFF101828);
+
+  // Secondary text color.
+  static const Color textMuted = Color(0xFF667085);
+
+  // Text color on primary buttons.
   static const Color textOnPrimary = Color(0xFFFFFFFF);
 
-  // --- UTILITY / STATUS ---
-  // Used for borders, dividers, and inactive states.
-  static const Color borderSubtle = Color(0xFFE2E8F0);
-  
-  // Used for "Cancel" buttons or error states.
-  static const Color error = Color(0xFFEF4444);
-  
-  // Used for success states (if needed, though the design leans on primary)
-  static const Color success = Color(0xFF10B981);
+  // Borders and separators.
+  static const Color borderSubtle = Color(0xFFE4E7EC);
+
+  // Error feedback color.
+  static const Color error = Color(0xFFD92D20);
+
+  // Success feedback color.
+  static const Color success = Color(0xFF12B76A);
+
+  // Warning or pending status color.
+  static const Color warning = Color(0xFFF79009);
 }
