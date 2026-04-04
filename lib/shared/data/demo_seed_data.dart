@@ -59,7 +59,9 @@ class DemoSeedData {
         clientId: 'client-demo',
         adminId: 'admin-julian',
         startTime: today.subtract(const Duration(days: 1, hours: 15)),
-        endTime: today.subtract(const Duration(days: 1, hours: 14, minutes: 35)),
+        endTime: today.subtract(
+          const Duration(days: 1, hours: 14, minutes: 35),
+        ),
         status: 'completed',
       ),
     ];

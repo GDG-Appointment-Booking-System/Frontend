@@ -105,7 +105,10 @@ class _ServiceCard extends StatelessWidget {
             if (highlight)
               Container(
                 margin: const EdgeInsets.only(bottom: 10),
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.accentGold,
                   borderRadius: BorderRadius.circular(999),
@@ -143,18 +146,25 @@ class _ServiceCard extends StatelessWidget {
                 ),
                 Text(
                   '\$${service.price.toStringAsFixed(0)}',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: AppColors.primary,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(color: AppColors.primary),
                 ),
               ],
             ),
             const SizedBox(height: 6),
-            Text(service.description, style: Theme.of(context).textTheme.bodyMedium),
+            Text(
+              service.description,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
             const SizedBox(height: 10),
             Row(
               children: [
-                const Icon(Icons.schedule, size: 16, color: AppColors.textMuted),
+                const Icon(
+                  Icons.schedule,
+                  size: 16,
+                  color: AppColors.textMuted,
+                ),
                 const SizedBox(width: 6),
                 Text(
                   '${service.durationMinutes} minutes',
@@ -194,7 +204,11 @@ class _EmptyServicesState extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.spa_outlined, size: 36, color: AppColors.primary),
+                const Icon(
+                  Icons.spa_outlined,
+                  size: 36,
+                  color: AppColors.primary,
+                ),
                 const SizedBox(height: 10),
                 Text(
                   'No Services Yet',

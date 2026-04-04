@@ -42,21 +42,24 @@ class _BookingPageState extends ConsumerState<BookingPage> {
       return;
     }
 
-    // TODO(team): wire selected service/admin IDs from previous screens.
+    // MOCK: Default service/admin IDs. In the real app, these should be passed from the
+    // Service selection screen via navigation arguments or providers.
     final request = CreateAppointmentRequestModel(
       serviceId: 'svc-classic-cut',
       adminId: 'admin-julian',
       startTime: _selectedTime!,
     );
 
-    await ref.read(appointmentControllerProvider.notifier).createAppointment(request);
+    await ref
+        .read(appointmentControllerProvider.notifier)
+        .createAppointment(request);
 
     if (!mounted) return;
     final createState = ref.read(appointmentControllerProvider);
     if (createState.hasError) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(createState.error.toString())),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(createState.error.toString())));
       return;
     }
 
@@ -76,7 +79,9 @@ class _BookingPageState extends ConsumerState<BookingPage> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('SharpCut')),
-      bottomNavigationBar: const ClientBottomNav(currentRoute: RouteNames.booking),
+      bottomNavigationBar: const ClientBottomNav(
+        currentRoute: RouteNames.booking,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
@@ -102,7 +107,11 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                       const SizedBox(height: 10),
                       CalendarDatePicker(
                         initialDate: _selectedDate,
-                        firstDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
+                        firstDate: DateTime(
+                          DateTime.now().year,
+                          DateTime.now().month,
+                          DateTime.now().day,
+                        ),
                         lastDate: DateTime.now().add(const Duration(days: 365)),
                         onDateChanged: (DateTime date) {
                           setState(() {
@@ -142,7 +151,8 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                           return ChoiceChip(
                             label: Text(DateFormat('hh:mm a').format(slot)),
                             selected: isSelected,
-                            onSelected: (_) => setState(() => _selectedTime = slot),
+                            onSelected: (_) =>
+                                setState(() => _selectedTime = slot),
                           );
                         }).toList(),
                       ),
@@ -162,10 +172,15 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8),
-                      const _SummaryRow(label: 'Service', value: 'Classic Executive Cut'),
+                      const _SummaryRow(
+                        label: 'Service',
+                        value: 'Classic Executive Cut',
+                      ),
                       _SummaryRow(
                         label: 'Date',
-                        value: DateFormat('EEE, dd MMM yyyy').format(_selectedDate),
+                        value: DateFormat(
+                          'EEE, dd MMM yyyy',
+                        ).format(_selectedDate),
                       ),
                       _SummaryRow(
                         label: 'Time',
@@ -173,7 +188,10 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                             ? 'Not selected'
                             : DateFormat('hh:mm a').format(_selectedTime!),
                       ),
-                      const _SummaryRow(label: 'Estimated Price', value: '\$45'),
+                      const _SummaryRow(
+                        label: 'Estimated Price',
+                        value: '\$45',
+                      ),
                     ],
                   ),
                 ),
@@ -184,7 +202,9 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                 child: ElevatedButton(
                   onPressed: createState.isLoading ? null : _submitBooking,
                   child: Text(
-                    createState.isLoading ? 'Confirming...' : 'Confirm Selection',
+                    createState.isLoading
+                        ? 'Confirming...'
+                        : 'Confirm Selection',
                   ),
                 ),
               ),
@@ -210,9 +230,9 @@ class _SummaryRow extends StatelessWidget {
         children: [
           Text(
             '$label:',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.textMuted,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
           ),
           const Spacer(),
           Text(value, style: Theme.of(context).textTheme.bodyLarge),

@@ -15,7 +15,8 @@ class AdminDashboardPage extends StatelessWidget {
     final appointments = DemoSeedData.appointments();
     final today = DateTime.now();
     final confirmedToday = appointments.where((apt) {
-      final sameDay = apt.startTime.year == today.year &&
+      final sameDay =
+          apt.startTime.year == today.year &&
           apt.startTime.month == today.month &&
           apt.startTime.day == today.day;
       return sameDay && apt.status != 'cancelled';
@@ -58,7 +59,8 @@ class AdminDashboardPage extends StatelessWidget {
                 children: [
                   _MetricCard(
                     label: 'Revenue',
-                    value: '\$${DemoSeedData.estimatedRevenue().toStringAsFixed(0)}',
+                    value:
+                        '\$${DemoSeedData.estimatedRevenue().toStringAsFixed(0)}',
                     icon: Icons.payments_outlined,
                   ),
                   _MetricCard(
@@ -76,7 +78,8 @@ class AdminDashboardPage extends StatelessWidget {
               const SizedBox(height: 14),
               const SectionHeader(
                 title: 'Today\'s Schedule',
-                subtitle: 'Tap manage services to edit prices, durations, and visibility.',
+                subtitle:
+                    'Tap manage services to edit prices, durations, and visibility.',
                 padding: EdgeInsets.only(bottom: 10),
               ),
               if (confirmedToday.isEmpty)
@@ -87,12 +90,17 @@ class AdminDashboardPage extends StatelessWidget {
                     padding: const EdgeInsets.all(14),
                     child: Column(
                       children: confirmedToday.map((appointment) {
-                        final time = DateFormat('hh:mm a').format(appointment.startTime);
+                        final time = DateFormat(
+                          'hh:mm a',
+                        ).format(appointment.startTime);
                         return ListTile(
                           contentPadding: EdgeInsets.zero,
                           leading: const CircleAvatar(
                             backgroundColor: AppColors.primarySoft,
-                            child: Icon(Icons.content_cut, color: AppColors.primary),
+                            child: Icon(
+                              Icons.content_cut,
+                              color: AppColors.primary,
+                            ),
                           ),
                           title: Text('Client booking #${appointment.id}'),
                           subtitle: Text('Starts at $time'),
@@ -134,7 +142,8 @@ class AdminDashboardPage extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () => context.go(RouteNames.adminManageServices),
+                          onPressed: () =>
+                              context.go(RouteNames.adminManageServices),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.textOnPrimary,
                             foregroundColor: AppColors.primary,
@@ -179,9 +188,9 @@ class _MetricCard extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 value,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: AppColors.primary,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(color: AppColors.primary),
               ),
               const SizedBox(height: 2),
               Text(label, style: Theme.of(context).textTheme.bodySmall),

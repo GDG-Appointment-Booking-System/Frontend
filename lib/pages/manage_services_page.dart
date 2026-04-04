@@ -23,9 +23,10 @@ class ManageServicesPage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // TODO(team): open add service form (bottom sheet or new page).
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('TODO: open Add Service form.')),
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (ctx) => const _EditServiceForm(service: null),
           );
         },
         icon: const Icon(Icons.add),
@@ -38,7 +39,9 @@ class ManageServicesPage extends ConsumerWidget {
             data: (services) {
               if (services.isEmpty) {
                 return const Center(
-                  child: Text('No services available. Tap "New Service" to add one.'),
+                  child: Text(
+                    'No services available. Tap "New Service" to add one.',
+                  ),
                 );
               }
 
@@ -95,7 +98,10 @@ class _ServiceAdminCard extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.primarySoft,
                     borderRadius: BorderRadius.circular(999),
@@ -111,11 +117,18 @@ class _ServiceAdminCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 6),
-            Text(service.description, style: Theme.of(context).textTheme.bodyMedium),
+            Text(
+              service.description,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
             const SizedBox(height: 10),
             Row(
               children: [
-                const Icon(Icons.schedule, size: 16, color: AppColors.textMuted),
+                const Icon(
+                  Icons.schedule,
+                  size: 16,
+                  color: AppColors.textMuted,
+                ),
                 const SizedBox(width: 6),
                 Text(
                   '${service.durationMinutes} minutes',
@@ -126,16 +139,22 @@ class _ServiceAdminCard extends StatelessWidget {
                 // Simple actions for students to replace with real update/delete APIs.
                 TextButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('TODO: edit ${service.name}.')),
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (ctx) => _EditServiceForm(service: service),
                     );
                   },
                   child: const Text('Edit'),
                 ),
                 TextButton(
                   onPressed: () {
+                    // MOCK: In the real app, call a delete endpoint on ApiService
+                    // then invalidate `servicesProvider`.
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('TODO: delete ${service.name}.')),
+                      SnackBar(
+                        content: Text('Deleted \${service.name} (Mock)'),
+                      ),
                     );
                   },
                   style: TextButton.styleFrom(foregroundColor: AppColors.error),
@@ -145,6 +164,102 @@ class _ServiceAdminCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _EditServiceForm extends StatefulWidget {
+  final ServiceModel? service;
+
+  const _EditServiceForm({this.service});
+
+  @override
+  State<_EditServiceForm> createState() => _EditServiceFormState();
+}
+
+class _EditServiceFormState extends State<_EditServiceForm> {
+  final TextEditingController _nameCtrl = TextEditingController();
+  final TextEditingController _priceCtrl = TextEditingController();
+  final TextEditingController _durationCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.service != null) {
+      _nameCtrl.text = widget.service!.name;
+      _priceCtrl.text = widget.service!.price.toString();
+      _durationCtrl.text = widget.service!.durationMinutes.toString();
+    }
+  }
+
+  @override
+  void dispose() {
+    _nameCtrl.dispose();
+    _priceCtrl.dispose();
+    _durationCtrl.dispose();
+    super.dispose();
+  }
+
+  void _save() {
+    // MOCK: Replace with API call to create or update service.
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          widget.service == null ? 'Created (Mock)' : 'Updated (Mock)',
+        ),
+      ),
+    );
+    Navigator.of(context).pop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 16,
+        left: 16,
+        right: 16,
+        bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            widget.service == null ? 'New Service' : 'Edit Service',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            controller: _nameCtrl,
+            decoration: const InputDecoration(
+              labelText: 'Name',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _priceCtrl,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              labelText: 'Price',
+              prefixText: '\$',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _durationCtrl,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              labelText: 'Duration (mins)',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(onPressed: _save, child: const Text('Save Service')),
+        ],
       ),
     );
   }

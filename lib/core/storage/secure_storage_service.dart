@@ -11,7 +11,7 @@ class SecureStorageService {
   static const String userRoleKey = 'user_role';
 
   Future<void> saveAccessToken(String token) async {
-    // TODO(team): call this right after successful login.
+    // This correctly saves the token to local secure-storage after login.
     await _storage.write(key: accessTokenKey, value: token);
   }
 

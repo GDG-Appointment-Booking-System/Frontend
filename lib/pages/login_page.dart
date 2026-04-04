@@ -39,9 +39,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!mounted) return;
 
     if (authState.hasError) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(authState.error.toString())),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(authState.error.toString())));
       return;
     }
 
@@ -179,9 +179,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   // Demo rule keeps student teams unblocked while backend is pending.
                   Text(
                     'Demo tip: emails containing "admin" open admin pages. Any other email opens client pages.',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.textMuted,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
                   ),
                 ],
               ),

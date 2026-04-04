@@ -59,9 +59,7 @@ final ThemeData sharpCutTheme = ThemeData(
       backgroundColor: AppColors.primary,
       foregroundColor: AppColors.textOnPrimary,
       minimumSize: const Size.fromHeight(50),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(14),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       elevation: 0,
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
     ),

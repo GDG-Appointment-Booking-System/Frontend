@@ -31,7 +31,7 @@ final dioProvider = Provider<Dio>((ref) {
         handler.next(options);
       },
       onError: (error, handler) {
-        // TODO(team): map backend errors to UI-friendly messages.
+        // MOCK: You can intercept interceptors and map backend errors to custom UI exceptions here.
         handler.next(error);
       },
     ),

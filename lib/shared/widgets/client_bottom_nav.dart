@@ -24,11 +24,11 @@ class ClientBottomNav extends StatelessWidget {
       },
       destinations: const [
         NavigationDestination(icon: Icon(Icons.content_cut), label: 'Services'),
+        NavigationDestination(icon: Icon(Icons.calendar_month), label: 'Book'),
         NavigationDestination(
-          icon: Icon(Icons.calendar_month),
-          label: 'Book',
+          icon: Icon(Icons.event_note),
+          label: 'My Bookings',
         ),
-        NavigationDestination(icon: Icon(Icons.event_note), label: 'My Bookings'),
       ],
     );
   }

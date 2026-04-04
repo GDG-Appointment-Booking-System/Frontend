@@ -32,7 +32,8 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const Text(
-              '// TODO(team): Remove dev shortcuts once login flow is connected.',
+              'Once the backend login endpoints are fully hooked up, you can '
+              'remove these developer shortcuts.',
             ),
           ],
         ),

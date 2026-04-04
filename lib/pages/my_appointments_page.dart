@@ -50,14 +50,17 @@ class MyAppointmentsPage extends ConsumerWidget {
                       itemCount: appointments.length,
                       separatorBuilder: (_, __) => const SizedBox(height: 10),
                       itemBuilder: (context, index) {
-                        return _AppointmentCard(appointment: appointments[index]);
+                        return _AppointmentCard(
+                          appointment: appointments[index],
+                        );
                       },
                     ),
                   ),
                 ],
               );
             },
-            loading: () => const LoadingView(label: 'Loading your appointments...'),
+            loading: () =>
+                const LoadingView(label: 'Loading your appointments...'),
             error: (error, _) => ErrorView(
               message: 'Could not load appointments.\n$error',
               onRetry: () => ref.invalidate(appointmentsProvider),
@@ -103,7 +106,10 @@ class _AppointmentCard extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
                   decoration: BoxDecoration(
                     color: statusColor.withValues(alpha: 0.14),
                     borderRadius: BorderRadius.circular(999),
@@ -136,11 +142,24 @@ class _AppointmentCard extends StatelessWidget {
                 const Spacer(),
                 TextButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: const Text('Appointment Details'),
                         content: Text(
-                          'TODO: open appointment details and actions.',
+                          'Service: \${appointment.serviceId}\\n'
+                          'Date: \$startDate\\n'
+                          'Time: \$startTime\\n'
+                          'Provider: \${appointment.adminId}\\n'
+                          'Status: \${appointment.status}',
                         ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(ctx),
+                            child: const Text('Close'),
+                          ),
+                          // Optional: Add cancel logic here in the future
+                        ],
                       ),
                     );
                   },
