@@ -53,6 +53,22 @@ final ThemeData sharpCutTheme = ThemeData(
     scrolledUnderElevation: 0,
   ),
 
+  dialogTheme: DialogThemeData(
+    backgroundColor: AppColors.surface,
+    surfaceTintColor: Colors.transparent,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    titleTextStyle: const TextStyle(
+      color: AppColors.textMain,
+      fontSize: 28,
+      fontWeight: FontWeight.w700,
+    ),
+    contentTextStyle: const TextStyle(
+      color: AppColors.textMain,
+      fontSize: 16,
+      height: 1.5,
+    ),
+  ),
+
   // Primary action buttons.
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(

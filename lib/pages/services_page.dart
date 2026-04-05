@@ -13,6 +13,8 @@ import 'package:go_router/go_router.dart';
 class ServicesPage extends ConsumerWidget {
   const ServicesPage({super.key});
 
+  static const String _serviceImagePath = 'assets/images/hair_model.png';
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final servicesAsync = ref.watch(servicesProvider);
@@ -24,8 +26,13 @@ class ServicesPage extends ConsumerWidget {
           Padding(
             padding: EdgeInsets.only(right: 16),
             child: CircleAvatar(
+              backgroundColor: AppColors.primary,
               radius: 14,
-              child: Icon(Icons.person_outline, size: 16),
+              child: Icon(
+                Icons.person_outline,
+                size: 16,
+                color: AppColors.textOnPrimary,
+              ),
             ),
           ),
         ],
@@ -59,6 +66,7 @@ class ServicesPage extends ConsumerWidget {
                         final service = services[index];
                         return _ServiceCard(
                           service: service,
+                          imagePath: _serviceImagePath,
                           highlight: index == 0,
                           onBookPressed: () {
                             // Keep routing simple now; later pass selected service ID.
@@ -86,11 +94,13 @@ class ServicesPage extends ConsumerWidget {
 class _ServiceCard extends StatelessWidget {
   const _ServiceCard({
     required this.service,
+    required this.imagePath,
     required this.onBookPressed,
     required this.highlight,
   });
 
   final ServiceModel service;
+  final String imagePath;
   final VoidCallback onBookPressed;
   final bool highlight;
 
@@ -122,17 +132,38 @@ class _ServiceCard extends StatelessWidget {
                   ),
                 ),
               ),
-            Container(
-              height: 130,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: AppColors.sectionTint,
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: const Icon(
-                Icons.content_cut_rounded,
-                size: 46,
-                color: AppColors.primary,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(14),
+              child: SizedBox(
+                height: 150,
+                width: double.infinity,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(
+                      imagePath,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Container(
+                        color: AppColors.sectionTint,
+                        alignment: Alignment.center,
+                        child: const Icon(
+                          Icons.content_cut_rounded,
+                          size: 46,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+                    const DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Color(0x260C1B2A), Color(0x590C1B2A)],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -141,6 +172,8 @@ class _ServiceCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     service.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
@@ -155,6 +188,8 @@ class _ServiceCard extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               service.description,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 10),

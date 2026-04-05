@@ -142,16 +142,32 @@ class _AppointmentCard extends StatelessWidget {
                 const Spacer(),
                 TextButton(
                   onPressed: () {
+                    final endTime = DateFormat(
+                      'hh:mm a',
+                    ).format(appointment.endTime);
                     showDialog(
                       context: context,
                       builder: (ctx) => AlertDialog(
                         title: const Text('Appointment Details'),
-                        content: Text(
-                          'Service: \${appointment.serviceId}\\n'
-                          'Date: \$startDate\\n'
-                          'Time: \$startTime\\n'
-                          'Provider: \${appointment.adminId}\\n'
-                          'Status: \${appointment.status}',
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _DetailRow(label: 'Service', value: serviceName),
+                            _DetailRow(label: 'Date', value: startDate),
+                            _DetailRow(
+                              label: 'Time',
+                              value: '$startTime - $endTime',
+                            ),
+                            _DetailRow(
+                              label: 'Provider',
+                              value: appointment.adminId,
+                            ),
+                            _DetailRow(
+                              label: 'Status',
+                              value: appointment.status.toUpperCase(),
+                            ),
+                          ],
                         ),
                         actions: [
                           TextButton(
@@ -185,6 +201,34 @@ class _AppointmentCard extends StatelessWidget {
       default:
         return AppColors.textMuted;
     }
+  }
+}
+
+class _DetailRow extends StatelessWidget {
+  const _DetailRow({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: RichText(
+        text: TextSpan(
+          style: Theme.of(context).textTheme.bodyMedium,
+          children: [
+            TextSpan(
+              text: '$label: ',
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+            ),
+            TextSpan(text: value),
+          ],
+        ),
+      ),
+    );
   }
 }
 

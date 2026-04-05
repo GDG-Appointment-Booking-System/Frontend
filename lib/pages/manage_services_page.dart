@@ -12,6 +12,8 @@ import 'package:frontend/shared/widgets/section_header.dart';
 class ManageServicesPage extends ConsumerWidget {
   const ManageServicesPage({super.key});
 
+  static const String _serviceImagePath = 'assets/images/hair_model.png';
+
   Future<void> _deleteService(
     BuildContext context,
     WidgetRef ref,
@@ -115,6 +117,7 @@ class ManageServicesPage extends ConsumerWidget {
                               final service = services[index];
                               return _ServiceAdminCard(
                                 service: service,
+                                imagePath: _serviceImagePath,
                                 isBusy: isBusy,
                                 onEdit: () => _openForm(context, service),
                                 onDelete: () =>
@@ -145,12 +148,14 @@ class ManageServicesPage extends ConsumerWidget {
 class _ServiceAdminCard extends StatelessWidget {
   const _ServiceAdminCard({
     required this.service,
+    required this.imagePath,
     required this.onEdit,
     required this.onDelete,
     required this.isBusy,
   });
 
   final ServiceModel service;
+  final String imagePath;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
   final bool isBusy;
@@ -163,11 +168,34 @@ class _ServiceAdminCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: SizedBox(
+                height: 92,
+                width: double.infinity,
+                child: Image.asset(
+                  imagePath,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Container(
+                    color: AppColors.sectionTint,
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.content_cut_rounded,
+                      size: 32,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
                   child: Text(
                     service.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
@@ -193,6 +221,8 @@ class _ServiceAdminCard extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               service.description,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 10),
