@@ -54,3 +54,27 @@ lib/
 2. Prefer simple state (`StatefulWidget`) for local UI state and Riverpod providers for app data.
 3. Use shared theme/colors first before adding custom per-page styling.
 4. Keep TODO comments where backend integration is still pending.
+
+## Run With Mock Backend (json-server)
+
+From project root:
+
+```bash
+cd mock-api
+npm install
+npm start
+```
+
+In a second terminal (project root):
+
+```bash
+flutter pub get
+flutter run
+```
+
+Quick login accounts:
+
+- `admin@sharpcut.dev` / `password123`
+- `client@sharpcut.dev` / `password123`
+
+Any email containing `admin` is also accepted and created as admin automatically.

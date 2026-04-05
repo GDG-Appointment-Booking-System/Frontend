@@ -32,13 +32,13 @@ class AppointmentModel {
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) {
     return AppointmentModel(
-      id: json['id'] as String,
-      serviceId: json['serviceId'] as String,
-      clientId: json['clientId'] as String,
-      adminId: json['adminId'] as String,
-      startTime: DateTime.parse(json['startTime'] as String),
-      endTime: DateTime.parse(json['endTime'] as String),
-      status: json['status'] as String,
+      id: json['id'].toString(),
+      serviceId: json['serviceId'].toString(),
+      clientId: json['clientId'].toString(),
+      adminId: json['adminId'].toString(),
+      startTime: DateTime.parse(json['startTime'].toString()),
+      endTime: DateTime.parse(json['endTime'].toString()),
+      status: json['status'].toString(),
     );
   }
 

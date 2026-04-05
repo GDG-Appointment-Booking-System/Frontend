@@ -28,11 +28,11 @@ class ServiceModel {
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) {
     return ServiceModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String,
+      id: json['id'].toString(),
+      name: (json['name'] ?? '').toString(),
+      description: (json['description'] ?? '').toString(),
       price: (json['price'] as num).toDouble(),
-      durationMinutes: json['durationMinutes'] as int,
+      durationMinutes: (json['durationMinutes'] as num).toInt(),
       imageUrl: json['imageUrl'] as String?,
     );
   }

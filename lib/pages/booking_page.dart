@@ -4,6 +4,8 @@ import 'package:frontend/core/router/route_names.dart';
 import 'package:frontend/core/shared_widgets/app_colors.dart';
 import 'package:frontend/features/booking/data/models/create_appointment_request_model.dart';
 import 'package:frontend/features/booking/providers/appointments_provider.dart';
+import 'package:frontend/features/services/data/models/service_model.dart';
+import 'package:frontend/features/services/providers/services_provider.dart';
 import 'package:frontend/shared/widgets/client_bottom_nav.dart';
 import 'package:frontend/shared/widgets/section_header.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +21,7 @@ class BookingPage extends ConsumerStatefulWidget {
 class _BookingPageState extends ConsumerState<BookingPage> {
   late DateTime _selectedDate;
   DateTime? _selectedTime;
+  String? _selectedServiceId;
 
   @override
   void initState() {
@@ -42,10 +45,18 @@ class _BookingPageState extends ConsumerState<BookingPage> {
       return;
     }
 
-    // MOCK: Default service/admin IDs. In the real app, these should be passed from the
-    // Service selection screen via navigation arguments or providers.
+    final services = ref.read(servicesProvider).valueOrNull ?? const [];
+    final selectedService = _findSelectedService(services);
+
+    if (selectedService == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Select a service first.')));
+      return;
+    }
+
     final request = CreateAppointmentRequestModel(
-      serviceId: 'svc-classic-cut',
+      serviceId: selectedService.id,
       adminId: 'admin-julian',
       startTime: _selectedTime!,
     );
@@ -71,8 +82,37 @@ class _BookingPageState extends ConsumerState<BookingPage> {
     context.go(RouteNames.myAppointments);
   }
 
+  ServiceModel? _findSelectedService(List<ServiceModel> services) {
+    for (final service in services) {
+      if (service.id == _selectedServiceId) {
+        return service;
+      }
+    }
+    return null;
+  }
+
+  bool _hasSelectedService(List<ServiceModel> services) {
+    for (final service in services) {
+      if (service.id == _selectedServiceId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final servicesAsync = ref.watch(servicesProvider);
+    final services = servicesAsync.valueOrNull ?? const <ServiceModel>[];
+
+    if (services.isNotEmpty && !_hasSelectedService(services)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        setState(() => _selectedServiceId = services.first.id);
+      });
+    }
+
+    final selectedService = _findSelectedService(services);
     final createState = ref.watch(appointmentControllerProvider);
     final slots = _slotsForDate(_selectedDate);
     final formattedDate = DateFormat('EEE, dd MMM').format(_selectedDate);
@@ -100,6 +140,48 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        'Select Service',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 10),
+                      servicesAsync.when(
+                        data: (loadedServices) {
+                          if (loadedServices.isEmpty) {
+                            return const Text(
+                              'No services available right now.',
+                            );
+                          }
+
+                          return DropdownButtonFormField<String>(
+                            key: ValueKey(_selectedServiceId),
+                            initialValue: _selectedServiceId,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                            ),
+                            items: loadedServices.map((service) {
+                              return DropdownMenuItem<String>(
+                                value: service.id,
+                                child: Text(
+                                  '${service.name} - \$${service.price.toStringAsFixed(0)}',
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() => _selectedServiceId = value);
+                            },
+                          );
+                        },
+                        loading: () => const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: LinearProgressIndicator(),
+                        ),
+                        error: (error, _) => Text(
+                          'Could not load services: $error',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
                       Text(
                         'Select Date',
                         style: Theme.of(context).textTheme.titleMedium,
@@ -172,9 +254,9 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8),
-                      const _SummaryRow(
+                      _SummaryRow(
                         label: 'Service',
-                        value: 'Classic Executive Cut',
+                        value: selectedService?.name ?? 'Not selected',
                       ),
                       _SummaryRow(
                         label: 'Date',
@@ -188,9 +270,11 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                             ? 'Not selected'
                             : DateFormat('hh:mm a').format(_selectedTime!),
                       ),
-                      const _SummaryRow(
+                      _SummaryRow(
                         label: 'Estimated Price',
-                        value: '\$45',
+                        value: selectedService == null
+                            ? '-'
+                            : '\$${selectedService.price.toStringAsFixed(0)}',
                       ),
                     ],
                   ),

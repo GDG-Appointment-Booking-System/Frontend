@@ -1,0 +1,89 @@
+{
+  "users": [
+    {
+      "id": "admin-julian",
+      "fullName": "Julian Admin",
+      "email": "admin@sharpcut.dev",
+      "role": "admin",
+      "password": "password123"
+    },
+    {
+      "id": "user-001",
+      "fullName": "Demo Client",
+      "email": "client@sharpcut.dev",
+      "role": "client",
+      "password": "password123"
+    },
+    {
+      "id": "user-1775411382990",
+      "fullName": "SharpCut Client",
+      "email": "abelmekonen@gmail.com",
+      "role": "client",
+      "password": "abel1234"
+    }
+  ],
+  "services": [
+    {
+      "id": "svc-classic-cut",
+      "name": "Classic Executive Cut",
+      "description": "A precision haircut with consultation and styling.",
+      "price": 45,
+      "durationMinutes": 45,
+      "imageUrl": null
+    },
+    {
+      "id": "svc-signature-beard",
+      "name": "Signature Beard Sculpt",
+      "description": "Shape, trim, and blend for a refined beard profile.",
+      "price": 35,
+      "durationMinutes": 30,
+      "imageUrl": null
+    },
+    {
+      "id": "svc-hot-towel",
+      "name": "Hot Towel Ritual",
+      "description": "Relaxing towel treatment with deep cleanse and finish.",
+      "price": 25,
+      "durationMinutes": 25,
+      "imageUrl": null
+    }
+  ],
+  "appointments": [
+    {
+      "id": "apt-001",
+      "serviceId": "svc-classic-cut",
+      "clientId": "user-001",
+      "adminId": "admin-julian",
+      "startTime": "2026-04-07T10:30:00.000Z",
+      "endTime": "2026-04-07T11:15:00.000Z",
+      "status": "confirmed"
+    },
+    {
+      "id": "apt-002",
+      "serviceId": "svc-signature-beard",
+      "clientId": "user-001",
+      "adminId": "admin-julian",
+      "startTime": "2026-04-08T13:00:00.000Z",
+      "endTime": "2026-04-08T13:30:00.000Z",
+      "status": "pending"
+    },
+    {
+      "id": "apt-003",
+      "serviceId": "svc-hot-towel",
+      "clientId": "user-001",
+      "adminId": "admin-julian",
+      "startTime": "2026-04-04T11:00:00.000Z",
+      "endTime": "2026-04-04T11:25:00.000Z",
+      "status": "completed"
+    },
+    {
+      "id": "apt-1775411425178",
+      "serviceId": "svc-hot-towel",
+      "adminId": "admin-julian",
+      "clientId": "user-1775411382990",
+      "startTime": "2026-04-14T06:30:00.000Z",
+      "endTime": "2026-04-14T06:55:00.000Z",
+      "status": "scheduled"
+    }
+  ]
+}
