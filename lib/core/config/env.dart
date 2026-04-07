@@ -2,8 +2,12 @@ import 'package:flutter/foundation.dart';
 
 class Env {
   Env._();
-
+  static const bool isProd = false;
+  
   static String get baseUrl {
+    if (isProd) {
+      return 'https://gdg-appointment-booking-system.onrender.com/api';
+    }
     if (kIsWeb) {
       return 'http://localhost:3000';
     }
